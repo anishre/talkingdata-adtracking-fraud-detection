@@ -1,0 +1,89 @@
+spark-shell --jars /home/krbipulesh/xgboost/jvm-packages/xgboost4j/target/xgboost4j-0.72-jar-with-dependencies.jar,/home/krbipulesh/xgboost/jvm-packages/xgboost4j-spark/target/xgboost4j-spark-0.72-jar-with-dependencies.jar --master yarn -i scala-xgboost.scala
+
+spark-shell --jars /home/krbipulesh/SparkGBM/target/SparkGBM-0.0.1.jar
+
+
+/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+
+
+/home/krbipulesh/lib/conda/pkgs/libstdcxx-ng-7.2.0-h7a57d05_2/lib/libstdc++.so.6.0.24 /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+
+
+spark-submit --master yarn --conf spark.driver.maxResultSize=5g pyspark-train-format-change-v2.py
+
+spark-shell --master yarn --conf spark.executor.memory=10g
+
+
+===========================GCP==============================
+
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-m"
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-w-0"
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-w-1"
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-w-2"
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-w-3"
+gcloud compute --project "kb-advanced-bracketology" ssh --zone "us-central1-b" "dataproc-cluster-1-w-4"
+
+
+sudo apt-get install bzip2
+wget https://repo.anaconda.com/archive/Anaconda3-5.1.0-Linux-x86_64.sh
+sh Anaconda3-5.1.0-Linux-x86_64.sh
+
+
+goog-dataproc-cluster-uuid: a654a87e-c5c2-4f99-a340-62f0ea2fd8a4
+goog-dataproc-location: us-central1
+
+gcloud config set compute/zone us-central1-b
+gcloud dataproc clusters update dataproc-cluster-1 --num-workers 3
+
+
+
+
+===========================COMPETITION DATA FILES Samples==============================
+
+--SAMPLE SUBMISSION
+click_id,is_attributed
+0,0
+1,0
+2,0
+3,0
+
+--TEST
+click_id,ip,app,device,os,channel,click_time
+0,43570,3,1,18,379,2017-11-09 14:23:39
+1,80528,3,1,13,379,2017-11-09 14:23:51
+2,32323,3,1,13,379,2017-11-09 14:25:57
+3,42887,3,1,17,379,2017-11-09 14:26:03
+
+--TRAIN
+ip,app,device,os,channel,click_time,attributed_time,is_attributed
+83230,3,1,13,379,2017-11-06 14:32:21,,0
+17357,3,1,19,379,2017-11-06 14:33:34,,0
+35810,3,1,13,379,2017-11-06 14:34:12,,0
+45745,14,1,13,478,2017-11-06 14:34:52,,0
+
+
+
+
+============================Spark GBM==========================
+
+files="train-split-aa.txt training_files_svm_light_2g_aa_ab.txt training_files_svm_light_3g_aa_ab_ac.txt training_files_svm_light_4g_aa_ab_ac_ad.txt training_files_svm_light_5g_aa_ab_ac_ad_ae.txt training_files_svm_light_7g_all.txt"
+
+   gbmc.setBoostType("gbtree")
+      .setBaseScore(0.0)
+      .setStepSize(0.2)
+      .setMaxIter(10)
+   
+      .setMaxLeaves(1000)
+      .setMaxBins(128)
+      .setMinGain(0.0)
+      .setSubSample(0.9)
+      .setColSampleByTree(0.9)
+      .setColSampleByLevel(0.9)
+      .setRegAlpha(0.1)
+      .setRegLambda(1.0)
+   
+      .setEvaluateFunc(Array("logloss", "auc", "error"))
+      .setCheckpointInterval(3)
+      .setEarlyStopIters(5)
+      .setModelCheckpointInterval(4)
+      .setModelCheckpointPath(modelCheckpointPath)
